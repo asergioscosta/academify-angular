@@ -31,8 +31,11 @@
                 <div class="form-head">
                     <h4 class="title">Cadastrar</h4>
                     <form id="cadastroForm" action="/salvarAluno" method="post">
-                        <input type="hidden" id="matricula" name="matricula">
-
+                        <div class="form-group">
+                            <label for="matricula">Matrícula</label>
+                            <input class="margin-5px-bottom form-control" type="text" id="matricula" name="matricula"
+                                placeholder="Digite a matrícula">
+                        </div>
                         <input type="hidden" id="dataHoraCadastro" name="dataHoraCadastro">
 
                         <div class="form-group">
@@ -47,7 +50,7 @@
                         </div>
 
                         <div class="button">
-                            <button type="submit" class="btn">Cadastrar</button>
+                            <button type="submit" class="btn">Salvar</button>
                         </div>
                     </form>
                 </div>

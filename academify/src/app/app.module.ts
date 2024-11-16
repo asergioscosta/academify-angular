@@ -7,6 +7,9 @@ import { ListaralunosComponent } from './listaralunos/listaralunos.component';
 import { PaginainicialComponent } from './paginainicial/paginainicial.component';
 import { InseriralunoComponent } from './inseriraluno/inseriraluno.component';
 import { HeaderComponent } from './header/header.component';
+import { VisualizaralunoComponent } from './visualizaraluno/visualizaraluno.component';
+import { EditaralunoComponent } from './editaraluno/editaraluno.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +17,10 @@ import { HeaderComponent } from './header/header.component';
     ListaralunosComponent,
     PaginainicialComponent,
     InseriralunoComponent,
-    HeaderComponent
+    HeaderComponent,
+    VisualizaralunoComponent,
+    EditaralunoComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
