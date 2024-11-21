@@ -10,6 +10,7 @@ import { HeaderComponent } from './header/header.component';
 import { VisualizaralunoComponent } from './visualizaraluno/visualizaraluno.component';
 import { EditaralunoComponent } from './editaraluno/editaraluno.component';
 import { FooterComponent } from './footer/footer.component';
+import { provideHttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import { FooterComponent } from './footer/footer.component';
     BrowserModule,
     AppRoutingModule,
   ],
-  providers: [],
+  providers: [provideHttpClient()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
