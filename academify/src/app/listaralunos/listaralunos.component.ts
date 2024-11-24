@@ -2,9 +2,17 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { AlunoService } from '../services/aluno.service';
+import { IAluno } from '../model/ialuno';
+import { Router } from '@angular/router';
 
-export interface PeriodicElement { }
-const ELEMENT_DATA: PeriodicElement[] = []
+export interface Aluno {
+  id: number;
+  matricula: string;
+  nome: string;
+  nascimento: Date;
+  dataHoraCadastro: Date;
+}
 
 @Component({
   selector: 'app-listaralunos',
@@ -13,12 +21,20 @@ const ELEMENT_DATA: PeriodicElement[] = []
 })
 
 export class ListaralunosComponent implements OnInit {
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  displayedColumns: string[] = ['id', 'matricula', 'nome', 'nascimento', 'dataHoraCadastro', 'acoes'];
+  dataSource = new MatTableDataSource<IAluno>();
+  loading = false;
 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  constructor(
+    private alunoService: AlunoService,
+    private router: Router
+  ) { }
+
   ngOnInit(): void {
+    this.carregarAlunos();
   }
 
   ngAfterViewInit(): void {
@@ -26,12 +42,49 @@ export class ListaralunosComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  applyFilter(event: Event) {
+  carregarAlunos(): void {
+    this.loading = true;
+    this.alunoService.listarAlunos().subscribe({
+      next: (alunos) => {
+        this.dataSource.data = alunos;
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Erro ao carregar alunos:', error);
+        this.loading = false;
+      }
+    });
+  }
+
+  applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
+    }
+  }
+
+  visualizarAluno(id: number): void {
+    this.router.navigate(['/visualizaraluno', id]);
+  }
+
+  editarAluno(id: number): void {
+    this.router.navigate(['/editaraluno', id]);
+  }
+
+  apagarAluno(id: number): void {
+    if (confirm('Tem certeza que deseja apagar este aluno?')) {
+      this.loading = true;
+      this.alunoService.deletarAluno(id).subscribe({
+        next: () => {
+          this.carregarAlunos();
+        },
+        error: (error) => {
+          console.error('Erro ao apagar aluno:', error);
+          this.loading = false;
+        }
+      });
     }
   }
 }
