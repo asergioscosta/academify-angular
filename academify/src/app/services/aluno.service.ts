@@ -57,6 +57,10 @@ export class AlunoService {
   }
 
   deletarAluno(id: number): Observable<void> {
-    return this.http.delete<void>(`${environment.api_base_url}api/aluno/${id}`);
+    return this.http.delete<void>(`${environment.api_base_url}/api/aluno/${id}`);
+  }
+
+  buscarAlunoPorId(id: number): Observable<IAluno> {
+    return this.http.get<IAluno>(`${environment.api_base_url}/api/aluno/${id}`);
   }
 }

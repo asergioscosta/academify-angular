@@ -13,7 +13,8 @@
             <div class="col-lg-8 offset-lg-2 col-md-12 col-12">
                 <div class="breadcrumbs-content">
                     <h1 class="page-title">Visualizar Aluno</h1>
-                    <p>Visualize e gerencie todos os alunos cadastrados no sistema.</p>
+                    <p> Aqui você encontra todos os alunos cadastrados no sistema.
+                    </p>
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a href="/paginainicial">Página Inicial</a></li>
@@ -24,116 +25,101 @@
     </div>
 </div>
 
-<section id="students" class="students section">
+<section class="login section">
     <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="section-title align-center gray-bg">
-                    <span>Alunos</span>
-                    <h2 class="wow fadeInUp" data-wow-delay=".4s">Visualizar Aluno</h2>
-                    <p class="wow fadeInUp" data-wow-delay=".6s">
-                        Aqui você encontra todos os alunos cadastrados no sistema.
-                    </p>
-                </div>
+        <div class="student-profile" *ngIf="aluno && !loading">
+            <div class="profile-header">
+                <h2>Detalhes do Aluno</h2>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Matrícula</span>
+                <span class="detail-value">{{ aluno.matricula || 'Não informado' }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Nome</span>
+                <span class="detail-value">{{ aluno.nome || 'Não informado' }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Data de Nascimento</span>
+                <span class="detail-value">{{ aluno.nascimento | date:'dd/MM/yyyy' || 'Não informado' }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Data e Hora de Cadastro</span>
+                <span class="detail-value">{{ aluno.dataHoraCadastro | date:'dd/MM/yyyy HH:mm' || 'Não informado'
+                    }}</span>
+            </div>
+            <div class="text-center mt-4">
+                <button (click)="router.navigate(['/listaralunos'])" class="btn btn-secondary">
+                    ← Voltar para Lista de Alunos
+                </button>
             </div>
         </div>
 
-        <div class="row" id="studentsContainer">
-            <div class="col-lg-6 col-md-6 col-12">
-                <div class="student-card">
-                    <div class="student-info">
-                        <span class="student-id">Matrícula #12345</span>
-                        <h4 class="student-name">Augusto</h4>
+        <div *ngIf="loading" class="text-center">
+            <mat-spinner></mat-spinner>
+        </div>
 
-                        <div class="student-details">
-                            <div class="detail-item">
-                                <i class="fas fa-birthday-cake"></i>
-                                <span class="detail-label">Data de Nascimento:</span>
-                                <span class="detail-value">01/01/2000</span>
-                            </div>
-
-                            <div class="detail-item">
-                                <i class="fas fa-calendar-check"></i>
-                                <span class="detail-label">Data de Cadastro:</span>
-                                <span class="detail-value">01/01/2024 14:30:00</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div *ngIf="erro" class="alert alert-danger">
+            Não foi possível carregar os dados do aluno.
         </div>
     </div>
 </section>
 
+
 <style>
-    .students.section {
-        padding: 50px 0;
-        background-color: #f9f9f9;
+    body {
+        background-color: #f4f6f9;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    .section-title {
-        margin-bottom: 40px;
+    .student-profile {
+        max-width: 600px;
+        margin: 50px auto;
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+    }
+
+    .profile-header {
         text-align: center;
-    }
-
-    .section-title span {
-        color: #666;
-        font-size: 16px;
-    }
-
-    .section-title h2 {
-        margin: 15px 0;
-        font-size: 32px;
-        color: #333;
-    }
-
-    .student-card {
-        background: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        padding: 20px;
         margin-bottom: 30px;
-        transition: transform 0.3s ease;
+        border-bottom: 2px solid #e9ecef;
+        padding-bottom: 20px;
     }
 
-    .student-card:hover {
-        transform: translateY(-5px);
+    .profile-header h2 {
+        color: #2c3e50;
+        font-weight: 600;
     }
 
-    .student-id {
-        color: #666;
-        font-size: 14px;
-    }
-
-    .student-name {
-        margin: 10px 0;
-        color: #333;
-        font-size: 24px;
-    }
-
-    .student-details {
-        margin-top: 20px;
-    }
-
-    .detail-item {
+    .detail-row {
         display: flex;
-        align-items: center;
-        margin-bottom: 10px;
-    }
-
-    .detail-item i {
-        color: #4a90e2;
-        margin-right: 10px;
-        width: 20px;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
     }
 
     .detail-label {
-        font-weight: bold;
-        margin-right: 10px;
-        color: #555;
+        font-weight: 600;
+        color: #34495e;
     }
 
     .detail-value {
-        color: #666;
+        color: #2980b9;
+        text-align: right;
+    }
+
+    .btn-back {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-back:hover {
+        background-color: #2980b9;
     }
 </style>
