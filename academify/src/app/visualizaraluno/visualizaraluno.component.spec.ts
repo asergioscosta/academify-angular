@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { VisualizaralunoComponent } from './visualizaraluno.component';
 
 describe('VisualizaralunoComponent', () => {

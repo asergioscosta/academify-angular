@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Aluno } from './inseriraluno';
 import { AlunoService } from '../services/aluno.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inseriraluno',
@@ -18,7 +19,10 @@ export class InseriralunoComponent implements OnInit {
     nascimento: new FormControl('', [Validators.required])
   });
 
-  constructor(private alunoService: AlunoService) { }
+  constructor(
+    private alunoService: AlunoService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     const alunoSalvo = localStorage.getItem('aluno-salvo');
@@ -59,8 +63,10 @@ export class InseriralunoComponent implements OnInit {
         next: (response) => {
           console.log('Aluno salvo com sucesso!', response);
           alert('Aluno cadastrado com sucesso!');
-          localStorage.setItem('aluno-salvo', JSON.stringify(this.aluno));
+          localStorage.setItem('aluno-salvo', JSON.stringify(response));
           this.alunoForm.reset();
+
+          this.router.navigate([`/editaraluno/${response.id}`]);
         },
         error: (err) => {
           console.error('Erro ao salvar aluno:', err);
@@ -77,5 +83,4 @@ export class InseriralunoComponent implements OnInit {
       alert('Por favor, corrija os erros no formulário antes de salvar.');
     }
   }
-
 }

@@ -11,8 +11,8 @@ const routes: Routes = [
   { path: "paginainicial", component: PaginainicialComponent },
   { path: "listaralunos", component: ListaralunosComponent },
   { path: "inseriraluno", component: InseriralunoComponent },
-  { path: "visualizaraluno", component: VisualizaralunoComponent },
-  { path: "editaraluno", component: EditaralunoComponent },
+  { path: 'editaraluno/:id', component: EditaralunoComponent },
+  { path: 'visualizaraluno/:id', component: VisualizaralunoComponent },
 ];
 
 @NgModule({

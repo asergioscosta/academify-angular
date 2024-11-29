@@ -3,10 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
-import { AlunoService } from './services/aluno.service';
 
+import { AlunoService } from './services/aluno.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ListaralunosComponent } from './listaralunos/listaralunos.component';
@@ -17,6 +16,7 @@ import { VisualizaralunoComponent } from './visualizaraluno/visualizaraluno.comp
 import { EditaralunoComponent } from './editaraluno/editaraluno.component';
 import { FooterComponent } from './footer/footer.component';
 
+import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -41,12 +41,12 @@ import { MatInputModule } from '@angular/material/input';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
     MatInputModule,
     MatProgressSpinnerModule,
+    MatIconModule
   ],
   providers: [
     provideHttpClient(),

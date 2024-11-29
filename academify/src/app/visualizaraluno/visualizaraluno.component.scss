@@ -8372,3 +8372,83 @@ ul.custom-flex {
 .mail-success .mail-content .button .btn.alt:hover {
     color: #fff;
 }
+
+
+
+.student-view {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f7f9;
+    padding: 20px;
+}
+
+.student-details-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+    padding: 40px;
+    width: 100%;
+    max-width: 500px;
+}
+
+.student-title {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-size: 24px;
+    font-weight: 600;
+    border-bottom: 2px solid #f1f3f5;
+    padding-bottom: 15px;
+}
+
+.detail-group {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f1f3f5;
+}
+
+.detail-group label {
+    display: block;
+    color: #7a8b9a;
+    margin-bottom: 8px;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+.detail-value {
+    color: #2c3e50;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.student-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.btn-back {
+    display: inline-block;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.btn-back:hover {
+    background-color: #2980b9;
+}
+
+@media (max-width: 576px) {
+    .student-details-card {
+        padding: 20px;
+    }
+}

@@ -32,41 +32,50 @@
             <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-12">
                 <div class="form-head">
                     <h4 class="title">Editar Aluno</h4>
-                    <form id="editarAlunoForm" action="/salvarAluno" method="post">
+                    <form [formGroup]="alunoForm" (ngSubmit)="onSubmit()">
                         <div class="form-group">
                             <label for="matricula">Matrícula</label>
-                            <input class="margin-5px-bottom form-control" type="text" id="matricula" name="matricula"
-                                placeholder="Digite a matrícula">
+                            <input class="margin-5px-bottom form-control" type="text" id="matricula"
+                                formControlName="matricula" placeholder="Digite a matrícula" />
+                            <div *ngIf="alunoForm.get('matricula')?.invalid && alunoForm.get('matricula')?.touched"
+                                class="error">
+                                Matrícula é obrigatória e deve conter apenas números.
+                            </div>
                         </div>
 
                         <div class="form-group">
                             <label for="nome">Nome</label>
-                            <input class="margin-5px-bottom form-control" type="text" id="nome" name="nome"
-                                placeholder="Digite o nome completo">
+                            <input class="margin-5px-bottom form-control" type="text" id="nome" formControlName="nome"
+                                placeholder="Digite o nome completo" />
+                            <div *ngIf="alunoForm.get('nome')?.invalid && alunoForm.get('nome')?.touched" class="error">
+                                Nome é obrigatório e deve conter pelo menos 3 caracteres.
+                            </div>
                         </div>
 
                         <div class="form-group">
                             <label for="nascimento">Data de Nascimento</label>
-                            <input class="margin-5px-bottom form-control" type="date" id="nascimento" name="nascimento">
+                            <input class="margin-5px-bottom form-control" type="date" id="nascimento"
+                                formControlName="nascimento" />
+                            <div *ngIf="alunoForm.get('nascimento')?.invalid && alunoForm.get('nascimento')?.touched"
+                                class="error">
+                                Data de nascimento é obrigatória.
+                            </div>
                         </div>
 
                         <div class="form-group">
                             <label>Data e Hora de Cadastro</label>
                             <div class="readonly-field">
                                 <i class="fas fa-clock"></i>
-                                <span id="dataHoraCadastroDisplay"></span>
+                                <span>{{ alunoForm.get('dataHoraCadastro')?.value }}</span>
                             </div>
-                            <input type="hidden" id="dataHoraCadastro" name="dataHoraCadastro">
                         </div>
 
                         <div class="action-buttons">
-                            <button type="button" class="btn back-btn" onclick="window.location.href='/listaralunos'">
-                                <i class="fas fa-arrow-left"></i>
-                                Voltar
+                            <button type="button" class="btn back-btn" (click)="router.navigate(['/listaralunos'])">
+                                <i class="fas fa-arrow-left"></i> Voltar
                             </button>
-                            <button type="submit" class="btn save-btn">
-                                <i class="fas fa-save"></i>
-                                Salvar
+                            <button type="submit" class="btn save-btn" [disabled]="!alunoForm.valid">
+                                <i class="fas fa-save"></i> Salvar
                             </button>
                         </div>
                     </form>

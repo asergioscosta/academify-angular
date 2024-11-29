@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 <div class="preloader" style="opacity: 0; display: none;">
     <div class="preloader-inner">
         <div class="preloader-icon">
@@ -25,101 +27,41 @@
     </div>
 </div>
 
-<section class="login section">
+<section class="student-view section">
     <div class="container">
-        <div class="student-profile" *ngIf="aluno && !loading">
-            <div class="profile-header">
-                <h2>Detalhes do Aluno</h2>
-            </div>
-            <div class="detail-row">
-                <span class="detail-label">Matrícula</span>
-                <span class="detail-value">{{ aluno.matricula || 'Não informado' }}</span>
-            </div>
-            <div class="detail-row">
-                <span class="detail-label">Nome</span>
-                <span class="detail-value">{{ aluno.nome || 'Não informado' }}</span>
-            </div>
-            <div class="detail-row">
-                <span class="detail-label">Data de Nascimento</span>
-                <span class="detail-value">{{ aluno.nascimento | date:'dd/MM/yyyy' || 'Não informado' }}</span>
-            </div>
-            <div class="detail-row">
-                <span class="detail-label">Data e Hora de Cadastro</span>
-                <span class="detail-value">{{ aluno.dataHoraCadastro | date:'dd/MM/yyyy HH:mm' || 'Não informado'
-                    }}</span>
-            </div>
-            <div class="text-center mt-4">
-                <button (click)="router.navigate(['/listaralunos'])" class="btn btn-secondary">
-                    ← Voltar para Lista de Alunos
-                </button>
-            </div>
-        </div>
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-12">
+                <div class="student-details-card">
+                    <h4 class="student-title">Detalhes do Aluno</h4>
 
-        <div *ngIf="loading" class="text-center">
-            <mat-spinner></mat-spinner>
-        </div>
+                    <div class="detail-group">
+                        <label>Matrícula</label>
+                        <div class="detail-value">{{ aluno?.matricula }}</div>
+                    </div>
 
-        <div *ngIf="erro" class="alert alert-danger">
-            Não foi possível carregar os dados do aluno.
+                    <div class="detail-group">
+                        <label>Nome Completo</label>
+                        <div class="detail-value">{{ aluno?.nome }}</div>
+                    </div>
+
+                    <div class="detail-group">
+                        <label>Data de Nascimento</label>
+                        <div class="detail-value">
+                            {{ aluno?.nascimento }}
+                        </div>
+                    </div>
+
+                    <div class="detail-group">
+                        <label>Data e Hora de Cadastro</label>
+                        <div class="detail-value">
+                            {{ aluno?.dataHoraCadastro }}
+                        </div>
+                    </div>
+                    <div class="student-actions">
+                        <a routerLink="/listaralunos" class="btn-back">Voltar</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
-
-
-<style>
-    body {
-        background-color: #f4f6f9;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    .student-profile {
-        max-width: 600px;
-        margin: 50px auto;
-        background-color: white;
-        border-radius: 12px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        padding: 30px;
-    }
-
-    .profile-header {
-        text-align: center;
-        margin-bottom: 30px;
-        border-bottom: 2px solid #e9ecef;
-        padding-bottom: 20px;
-    }
-
-    .profile-header h2 {
-        color: #2c3e50;
-        font-weight: 600;
-    }
-
-    .detail-row {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
-        padding: 15px;
-        background-color: #f8f9fa;
-        border-radius: 8px;
-    }
-
-    .detail-label {
-        font-weight: 600;
-        color: #34495e;
-    }
-
-    .detail-value {
-        color: #2980b9;
-        text-align: right;
-    }
-
-    .btn-back {
-        background-color: #3498db;
-        color: white;
-        border: none;
-        transition: background-color 0.3s ease;
-    }
-
-    .btn-back:hover {
-        background-color: #2980b9;
-    }
-</style>
