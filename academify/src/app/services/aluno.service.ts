@@ -37,27 +37,23 @@ export class AlunoService {
     return this.http.get<number>(`${environment.api_base_url}/api/aluno/total`);
   }
 
-  getAluno(id: number): Observable<IAluno> {
-    return this.http.get<IAluno>(`${environment.api_base_url}/api/aluno/${id}`);
-  }
-
   listarAlunos(): Observable<IAluno[]> {
     return this.http.get<IAluno[]>(`${environment.api_base_url}/api/aluno`);
   }
 
-  atualizarAluno(id: number, aluno: IAluno): Observable<IAluno> {
+  atualizarAluno(id: number, aluno: Partial<IAluno>): Observable<IAluno> {
     const headers = { 'Content-Type': 'application/json' };
+
     const alunoFormatted = {
-      ...aluno,
-      nascimento: aluno.nascimento instanceof Date
-        ? aluno.nascimento.toISOString()
-        : aluno.nascimento,
-      dataHoraCadastro: aluno.dataHoraCadastro instanceof Date
-        ? aluno.dataHoraCadastro.toISOString()
-        : aluno.dataHoraCadastro
+      id: id,
+      matricula: aluno.matricula,
+      nome: aluno.nome,
+      nascimento: aluno.nascimento instanceof Date ?
+        aluno.nascimento.toISOString().split('T')[0] : aluno.nascimento,
     };
 
-    console.log('Enviando dados de aluno para atualização:', alunoFormatted);
+    console.log('Enviando requisição PUT para:', `${environment.api_base_url}/api/aluno/${id}`);
+    console.log('Payload da atualização:', alunoFormatted);
 
     return this.http.put<IAluno>(
       `${environment.api_base_url}/api/aluno/${id}`,
@@ -65,12 +61,21 @@ export class AlunoService {
       { headers }
     ).pipe(
       catchError((error) => {
-        console.error('Erro ao atualizar aluno:', error);
-        alert(`Erro ao atualizar aluno. Status: ${error.status}, Mensagem: ${error.message}`);
-        return throwError(() => new Error('Erro ao atualizar aluno.'));
+        console.error('Erro ao atualizar aluno no serviço:', error);
+        return throwError(() => new Error(`Erro ao atualizar aluno. Detalhes: ${error.message}`));
       })
     );
   }
+
+  getAluno(id: number): Observable<IAluno> {
+    return this.http.get<IAluno>(`${environment.api_base_url}/api/aluno/${id}`).pipe(
+      catchError((error) => {
+        console.error('Erro ao carregar aluno:', error);
+        return throwError(() => new Error('Erro ao carregar aluno.'));
+      })
+    );
+  }
+
 
   deletarAluno(id: number): Observable<void> {
     return this.http.delete<void>(`${environment.api_base_url}/api/aluno/${id}`);

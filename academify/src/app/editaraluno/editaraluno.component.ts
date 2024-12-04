@@ -39,50 +39,50 @@ export class EditaralunoComponent implements OnInit {
   carregarAluno(id: number): void {
     this.alunoService.getAluno(id).subscribe({
       next: (aluno: IAluno) => {
-        console.log('Aluno carregado:', aluno);
         this.alunoForm.patchValue({
           id: aluno.id,
           matricula: aluno.matricula,
           nome: aluno.nome,
           nascimento: aluno.nascimento
-            ? new Date(aluno.nascimento).toISOString().split('T')[0]
+            ? this.formatarNascimento(aluno.nascimento)
             : null,
-          dataHoraCadastro: aluno.dataHoraCadastro
-            ? new Date(aluno.dataHoraCadastro).toLocaleString()
-            : null
         });
       },
-      error: (err) => {
-        console.error('Erro ao carregar aluno:', err);
+      error: () => {
         alert('Erro ao carregar os dados do aluno.');
         this.router.navigate(['/listaralunos']);
       }
     });
   }
 
+  private formatarNascimento(nascimento: string | Date): string {
+    if (nascimento instanceof Date) {
+      return nascimento.toISOString().split('T')[0];
+    }
+    if (typeof nascimento === 'string') {
+      return nascimento.split('T')[0];
+    }
+    return '';
+  }
+
   onSubmit(): void {
     if (this.alunoForm.valid) {
-      const alunoAtualizado = {
-        ...this.alunoForm.getRawValue(),
-        nascimento: new Date(this.alunoForm.get('nascimento')?.value).toISOString().split('T')[0],
-      };
+      const alunoAtualizado = this.alunoForm.getRawValue();
 
       console.log('Dados enviados para atualização:', alunoAtualizado);
 
-      if (!alunoAtualizado.id) {
-        console.error('ID do aluno não encontrado!');
-        return;
-      }
-
-      this.alunoService.atualizarAluno(alunoAtualizado.id, alunoAtualizado).subscribe({
-        next: (response) => {
-          console.log('Aluno atualizado com sucesso:', response);
+      this.alunoService.atualizarAluno(alunoAtualizado.id, {
+        matricula: alunoAtualizado.matricula,
+        nome: alunoAtualizado.nome,
+        nascimento: alunoAtualizado.nascimento
+      }).subscribe({
+        next: () => {
           alert('Aluno atualizado com sucesso!');
           this.router.navigate(['/listaralunos']);
         },
         error: (err) => {
           console.error('Erro ao atualizar aluno:', err);
-          alert(`Erro ao salvar as alterações. Detalhes: ${err.status} - ${err.statusText} - ${err.message}`);
+          alert(`Erro ao salvar as alterações. Detalhes: ${err.status} - ${err.message}`);
         }
       });
     } else {
