@@ -57,16 +57,15 @@ export class InseriralunoComponent implements OnInit {
 
       console.log('Dados do formulário prontos para envio:', this.aluno);
 
-      const headers = { 'Content-Type': 'application/json' };
-
       this.alunoService.salvarAluno(this.aluno).subscribe({
         next: (response) => {
           console.log('Aluno salvo com sucesso!', response);
           alert('Aluno cadastrado com sucesso!');
-          localStorage.setItem('aluno-salvo', JSON.stringify(response));
-          this.alunoForm.reset();
 
-          this.router.navigate([`/editaraluno/${response.id}`]);
+          this.alunoForm.reset();
+          this.aluno = new Aluno();
+
+          this.router.navigate(['/inseriraluno']);
         },
         error: (err) => {
           console.error('Erro ao salvar aluno:', err);
@@ -74,12 +73,11 @@ export class InseriralunoComponent implements OnInit {
         }
       });
     } else {
-      Object.keys(this.alunoForm.controls).forEach(key => {
+      Object.keys(this.alunoForm.controls).forEach((key) => {
         const control = this.alunoForm.get(key);
-        if (control?.invalid) {
-          console.log(`Campo ${key} está inválido:`, control.errors);
-        }
+        control?.markAsTouched();
       });
+
       alert('Por favor, corrija os erros no formulário antes de salvar.');
     }
   }

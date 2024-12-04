@@ -62,7 +62,12 @@ export class EditaralunoComponent implements OnInit {
 
   onSubmit(): void {
     if (this.alunoForm.valid) {
-      const alunoAtualizado = this.alunoForm.value;
+      const alunoAtualizado = {
+        ...this.alunoForm.getRawValue(),
+        nascimento: new Date(this.alunoForm.get('nascimento')?.value).toISOString().split('T')[0],
+      };
+
+      console.log('Dados enviados para atualização:', alunoAtualizado);
 
       if (!alunoAtualizado.id) {
         console.error('ID do aluno não encontrado!');
@@ -77,7 +82,7 @@ export class EditaralunoComponent implements OnInit {
         },
         error: (err) => {
           console.error('Erro ao atualizar aluno:', err);
-          alert(`Erro ao salvar as alterações. Detalhes: ${err.message}`);
+          alert(`Erro ao salvar as alterações. Detalhes: ${err.status} - ${err.statusText} - ${err.message}`);
         }
       });
     } else {

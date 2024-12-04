@@ -49,21 +49,28 @@ export class AlunoService {
     const headers = { 'Content-Type': 'application/json' };
     const alunoFormatted = {
       ...aluno,
-      nascimento: aluno.nascimento instanceof Date ?
-        aluno.nascimento.toISOString().split('T')[0] : aluno.nascimento,
-      dataHoraCadastro: aluno.dataHoraCadastro instanceof Date ?
-        aluno.dataHoraCadastro.toISOString() : aluno.dataHoraCadastro
+      nascimento: aluno.nascimento instanceof Date
+        ? aluno.nascimento.toISOString()
+        : aluno.nascimento,
+      dataHoraCadastro: aluno.dataHoraCadastro instanceof Date
+        ? aluno.dataHoraCadastro.toISOString()
+        : aluno.dataHoraCadastro
     };
 
-    console.log('ID enviado:', id);
-    console.log('Dados enviados:', alunoFormatted);
+    console.log('Enviando dados de aluno para atualização:', alunoFormatted);
 
     return this.http.put<IAluno>(
       `${environment.api_base_url}/api/aluno/${id}`,
-      aluno
-    )
+      alunoFormatted,
+      { headers }
+    ).pipe(
+      catchError((error) => {
+        console.error('Erro ao atualizar aluno:', error);
+        alert(`Erro ao atualizar aluno. Status: ${error.status}, Mensagem: ${error.message}`);
+        return throwError(() => new Error('Erro ao atualizar aluno.'));
+      })
+    );
   }
-
 
   deletarAluno(id: number): Observable<void> {
     return this.http.delete<void>(`${environment.api_base_url}/api/aluno/${id}`);

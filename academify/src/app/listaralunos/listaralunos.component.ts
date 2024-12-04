@@ -64,7 +64,6 @@ export class ListaralunosComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-
   visualizarAluno(id: number): void {
     this.router.navigate(['/visualizaraluno', id]);
   }
